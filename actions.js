@@ -34,6 +34,7 @@ module.exports = function (self) {
           default: 50,
           min: 0,
           max: 100,
+          useVariables: true,
         },
       ],
       callback: async (event) => {
