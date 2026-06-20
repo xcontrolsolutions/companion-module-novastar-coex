@@ -29,22 +29,158 @@ module.exports = function (self) {
       options: [
         {
           id: 'num',
-          type: 'number',
+          type: 'textinput',
           label: 'Brightness',
-          default: 50,
-          min: 0,
-          max: 100,
+          default: '50',
+          tooltip: 'Enter 0-100 or use a variable. Nonnumeric and negative values become 0; values above 100 become 100.',
           useVariables: true,
         },
       ],
-      callback: async (event) => {
-        self.log('info', 'Change Brightness: ' + event.options.num) // Use self.log
+      callback: async (event, context) => {
+        const parsedBrightness = await context.parseVariablesInString(String(event.options.num))
+        const requestedBrightness = Number(parsedBrightness.trim().replace(/%$/, ''))
+
+        const brightness = Number.isFinite(requestedBrightness)
+          ? Math.min(100, Math.max(0, requestedBrightness))
+          : 0
+
+        if (!Number.isFinite(requestedBrightness)) {
+          self.log('warn', `Invalid brightness value "${parsedBrightness}" defaulted to 0`)
+        } else if (brightness !== requestedBrightness) {
+          self.log('warn', `Brightness ${requestedBrightness} clamped to ${brightness}`)
+        }
+
+        self.log('info', 'Change Brightness: ' + brightness) // Use self.log
         try {
           // Use await and try/catch, remove callback function (assuming brightness takes value and optional screenId)
-          const response = await self.novastar.brightness(event.options.num, null)
+          const response = await self.novastar.brightness(brightness, null)
           self.log('debug', 'Brightness change response: ' + JSON.stringify(response)) // Log success if needed
         } catch (error) {
           self.log('error', `Error changing brightness: ${error.message || error}`) // Use self.log for errors
+        }
+      },
+    },
+    brightness_adjust: {
+      name: 'Adjust Brightness',
+      options: [
+        {
+          id: 'amount',
+          type: 'number',
+          label: 'Adjustment',
+          default: 1,
+          min: -100,
+          max: 100,
+        },
+      ],
+      callback: async (event) => {
+        const amount = Number(event.options.amount)
+
+        if (!Number.isFinite(amount)) {
+          self.log('warn', `Invalid brightness adjustment "${event.options.amount}"; no change made`)
+          return
+        }
+
+        try {
+          const displayParams = await self.novastar.getDisplayParams()
+          const currentBrightness = Number(displayParams?.[0]?.brightness)
+
+          if (!Number.isFinite(currentBrightness)) {
+            self.log('warn', 'Unable to read current brightness; defaulting to 0')
+          }
+
+          const currentPercent = Number.isFinite(currentBrightness) ? currentBrightness * 100 : 0
+          const brightness = Math.min(100, Math.max(0, currentPercent + amount))
+
+          self.log('info', `Adjust Brightness: ${currentPercent} by ${amount} to ${brightness}`)
+          await self.novastar.brightness(brightness, null)
+        } catch (error) {
+          self.log('error', `Error adjusting brightness: ${error.message || error}`)
+        }
+      },
+    },
+    brightness_fade: {
+      name: 'Fade Brightness',
+      options: [
+        {
+          id: 'target',
+          type: 'textinput',
+          label: 'Target Brightness',
+          default: '15',
+          tooltip: 'Target value from 0-100 or a variable. Values are clamped to 0-100.',
+          useVariables: true,
+        },
+        {
+          id: 'duration',
+          type: 'textinput',
+          label: 'Duration in Minutes',
+          default: '60',
+          tooltip: 'Fade duration in minutes or a variable. Zero changes brightness immediately.',
+          useVariables: true,
+        },
+      ],
+      callback: async (event, context) => {
+        const parsedTarget = await context.parseVariablesInString(String(event.options.target))
+        const parsedDuration = await context.parseVariablesInString(String(event.options.duration))
+        const requestedTarget = Number(parsedTarget.trim().replace(/%$/, ''))
+        const requestedDuration = Number(parsedDuration.trim())
+        const target = Number.isFinite(requestedTarget)
+          ? Math.min(100, Math.max(0, requestedTarget))
+          : 0
+
+        if (!Number.isFinite(requestedDuration) || requestedDuration < 0) {
+          self.log('warn', `Invalid fade duration "${parsedDuration}"; no fade started`)
+          return
+        }
+
+        if (self.brightnessFadeTimer) {
+          clearTimeout(self.brightnessFadeTimer)
+          self.brightnessFadeTimer = null
+          self.log('info', 'Previous brightness fade cancelled')
+        }
+
+        try {
+          const displayParams = await self.novastar.getDisplayParams()
+          const currentBrightness = Number(displayParams?.[0]?.brightness)
+          const start = Number.isFinite(currentBrightness) ? currentBrightness * 100 : 0
+          const durationMs = requestedDuration * 60 * 1000
+
+          if (durationMs === 0 || start === target) {
+            await self.novastar.brightness(target, null)
+            self.log('info', `Brightness set to ${target}`)
+            return
+          }
+
+          const startedAt = Date.now()
+          let lastBrightness = Math.round(start)
+
+          const updateFade = async () => {
+            const progress = Math.min(1, (Date.now() - startedAt) / durationMs)
+            const brightness = progress === 1
+              ? target
+              : Math.round(start + (target - start) * progress)
+
+            try {
+              if (brightness !== lastBrightness || progress === 1) {
+                await self.novastar.brightness(brightness, null)
+                lastBrightness = brightness
+              }
+
+              if (progress < 1) {
+                self.brightnessFadeTimer = setTimeout(updateFade, 1000)
+              } else {
+                self.brightnessFadeTimer = null
+                self.log('info', `Brightness fade completed at ${target}`)
+              }
+            } catch (error) {
+              self.brightnessFadeTimer = null
+              self.log('error', `Brightness fade failed: ${error.message || error}`)
+            }
+          }
+
+          self.log('info', `Fading brightness from ${start} to ${target} over ${requestedDuration} minutes`)
+          self.brightnessFadeTimer = setTimeout(updateFade, 1000)
+        } catch (error) {
+          self.log('error', `Error starting brightness fade: ${error.message || error}`)
         }
       },
     },

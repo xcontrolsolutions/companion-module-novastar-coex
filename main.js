@@ -2,6 +2,7 @@ const { InstanceBase, Regex, runEntrypoint, InstanceStatus } = require('@compani
 const UpgradeScripts = require('./upgrades')
 const UpdateActions = require('./actions')
 const UpdateFeedbacks = require('./feedbacks')
+const UpdatePresets = require('./presets')
 const UpdateVariableDefinitions = require('./variables')
 
 const Novastar = require('@novastar-dev/coex')
@@ -15,6 +16,7 @@ class ModuleInstance extends InstanceBase {
   constructor(internal) {
     super(internal)
     this.pollTimer = null // Timer for polling
+    this.brightnessFadeTimer = null
     this.displayParams = [] // Store display parameters
     this.presets = [] // Store presets
     this.presetlist = [] // Store presets for dropdown
@@ -39,11 +41,16 @@ class ModuleInstance extends InstanceBase {
       clearInterval(this.pollTimer)
       this.pollTimer = null
     }
+    if (this.brightnessFadeTimer) {
+      clearTimeout(this.brightnessFadeTimer)
+      this.brightnessFadeTimer = null
+    }
 
     // Update actions, feedbacks, and variables definitions immediately
     // so the user can see them even if the connection fails or is pending.
     this.updateActions()
     this.updateFeedbacks()
+    this.updatePresets()
     this.updateVariableDefinitions()
     this.checkVariables() // Update with default/empty values
 
@@ -287,6 +294,10 @@ class ModuleInstance extends InstanceBase {
       clearInterval(this.pollTimer)
       this.pollTimer = null
     }
+    if (this.brightnessFadeTimer) {
+      clearTimeout(this.brightnessFadeTimer)
+      this.brightnessFadeTimer = null
+    }
     // Add any other necessary cleanup, like stopping the Novastar connection if applicable
     if (this.novastar && typeof this.novastar.disconnect === 'function') {
       // Assuming a disconnect method
@@ -349,6 +360,10 @@ class ModuleInstance extends InstanceBase {
 
   updateFeedbacks() {
     UpdateFeedbacks(this)
+  }
+
+  updatePresets() {
+    UpdatePresets(this)
   }
 
   updateVariableDefinitions() {
