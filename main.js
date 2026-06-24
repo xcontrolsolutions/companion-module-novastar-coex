@@ -17,6 +17,10 @@ class ModuleInstance extends InstanceBase {
     super(internal)
     this.pollTimer = null // Timer for polling
     this.brightnessFadeTimer = null
+    this.brightnessFadeGeneration = 0
+    this.brightnessFadeRunning = false
+    this.brightnessCommandError = ''
+    this.brightnessFeedbackValid = false
     this.displayParams = [] // Store display parameters
     this.presets = [] // Store presets
     this.presetlist = [] // Store presets for dropdown
@@ -35,6 +39,10 @@ class ModuleInstance extends InstanceBase {
     this.presetlist = [] // Reset presetlist
     this.displayState = null // Reset display state
     this.initialDataFetched = false // Reset flag
+    this.brightnessFadeGeneration += 1
+    this.brightnessFadeRunning = false
+    this.brightnessCommandError = ''
+    this.brightnessFeedbackValid = false
 
     // Clear any existing timer
     if (this.pollTimer) {
@@ -168,6 +176,7 @@ class ModuleInstance extends InstanceBase {
       this.log('error', `Connection or initial data fetch failed: ${error.message || JSON.stringify(error)}`) // Log the error
       this.updateStatus(InstanceStatus.ConnectionFailure)
       this.initialDataFetched = false // Mark as failed
+      this.brightnessFeedbackValid = false
       this.sources = [] // Clear sources on failure
       this.sourcelist = [] // Clear sourcelist on failure
       this.displayParams = [] // Clear display params on failure
@@ -198,6 +207,16 @@ class ModuleInstance extends InstanceBase {
           ? newData || []
           : newData
 
+      if (stateProperty === 'displayParams') {
+        const rawBrightness = Number(safeNewData?.[0]?.brightness)
+        const feedbackValid = Number.isFinite(rawBrightness)
+        if (feedbackValid !== this.brightnessFeedbackValid) {
+          this.brightnessFeedbackValid = feedbackValid
+          this.checkVariables()
+          this.checkFeedbacks()
+        }
+      }
+
       if (!_.isEqual(safeNewData, currentData)) {
         this.log('debug', `${errorMsgPrefix} updated`)
         this[stateProperty] = safeNewData // Update the main state property
@@ -209,6 +228,11 @@ class ModuleInstance extends InstanceBase {
       }
     } catch (error) {
       this.log('warn', `Failed to poll ${errorMsgPrefix.toLowerCase()}: ${error.message || JSON.stringify(error)}`)
+      if (stateProperty === 'displayParams' && this.brightnessFeedbackValid) {
+        this.brightnessFeedbackValid = false
+        this.checkVariables()
+        this.checkFeedbacks()
+      }
     }
   }
 
@@ -257,17 +281,30 @@ class ModuleInstance extends InstanceBase {
 
   // Method to update variable values based on stored data
   checkVariables() {
-    const variableValues = {}
+    const variableValues = {
+      brightness_feedback_valid: this.brightnessFeedbackValid ? 1 : 0,
+      brightness_fade_running: this.brightnessFadeRunning ? 1 : 0,
+      brightness_command_error: this.brightnessCommandError || '',
+    }
     if (Array.isArray(this.displayParams)) {
       this.displayParams.forEach((param, index) => {
-        const screenLabel = `Screen ${index + 1}` // Use index for label as ID might be long
         variableValues[`screen_${index}_id`] = param.screenId
-        // Convert brightness to percentage string
-        const brightnessPercent = Math.round((param.brightness || 0) * 100)
-        variableValues[`screen_${index}_brightness`] = `${brightnessPercent}%`
-        variableValues[`screen_${index}_colortemp`] = param.colorTemperature + 'K'
-        variableValues[`screen_${index}_gamma`] = param.gamma
+        const rawBrightness = Number(param.brightness)
+        const brightnessPercent = rawBrightness <= 1 ? rawBrightness * 100 : rawBrightness
+        variableValues[`screen_${index}_brightness`] =
+          this.brightnessFeedbackValid && Number.isFinite(brightnessPercent)
+            ? `${Math.round(brightnessPercent)}%`
+            : '--%'
+        variableValues[`screen_${index}_colortemp`] =
+          param.colorTemperature === undefined || param.colorTemperature === null
+            ? '--'
+            : param.colorTemperature + 'K'
+        variableValues[`screen_${index}_gamma`] = param.gamma ?? '--'
       })
+    }
+
+    if (!this.brightnessFeedbackValid || !this.displayParams?.[0]) {
+      variableValues['screen_0_brightness'] = '--%'
     }
     // Set the current preset name variable
     variableValues['current_preset_name'] = this.currentPresetName || 'Not Activated'
@@ -290,6 +327,8 @@ class ModuleInstance extends InstanceBase {
 
   // When module gets deleted
   async destroy() {
+    this.brightnessFadeGeneration += 1
+    this.brightnessFadeRunning = false
     if (this.pollTimer) {
       clearInterval(this.pollTimer)
       this.pollTimer = null

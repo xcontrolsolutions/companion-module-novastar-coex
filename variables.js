@@ -1,9 +1,39 @@
 module.exports = async function (self) {
-  const variableDefinitions = []
+  const variableDefinitions = [
+    {
+      variableId: 'screen_0_id',
+      name: 'Screen 1 ID',
+    },
+    {
+      variableId: 'screen_0_brightness',
+      name: 'Screen 1 Brightness',
+    },
+    {
+      variableId: 'screen_0_colortemp',
+      name: 'Screen 1 Color Temperature',
+    },
+    {
+      variableId: 'screen_0_gamma',
+      name: 'Screen 1 Gamma',
+    },
+    {
+      variableId: 'brightness_feedback_valid',
+      name: 'Brightness Feedback Valid',
+    },
+    {
+      variableId: 'brightness_fade_running',
+      name: 'Brightness Fade Running',
+    },
+    {
+      variableId: 'brightness_command_error',
+      name: 'Latest Brightness Command Error',
+    },
+  ]
 
   // Check if displayParams exists and is an array
   if (Array.isArray(self.displayParams)) {
     self.displayParams.forEach((param, index) => {
+      if (index === 0) return
       const screenLabel = `Screen ${index + 1}` // Use index for label as ID might be long/complex
 
       // Add variable for Screen ID (optional, but potentially useful)
@@ -41,12 +71,6 @@ module.exports = async function (self) {
       name: 'Current Display State',
     })
 
-  } else {
-    // Optionally add placeholder variables or a status variable if no params are available
-    variableDefinitions.push({
-      variableId: 'connection_status',
-      name: 'Device Status',
-    })
   }
 
   self.setVariableDefinitions(variableDefinitions)
