@@ -1,0 +1,3291 @@
+---
+version: 12
+type: full
+companionBuild: 4.3.4+9244-stable-c14e5e3334
+pages:
+  '1':
+    id: FQccp_1dLggI7V4nIU3JH
+    name: PAGE
+    controls:
+      '0':
+        '0':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1?concat('Edit\\n',$(custom:Preset_Edit_Value),$(custom:Preset_Edit_Bank)==2?'m':'%'):$(custom:Brightness_Active_Mode)==0?concat('Brightness\\n',$(novastar-coex:screen_0_brightness)):$(custom:Brightness_Active_Mode)==1?concat('Target\\n',$(custom:Fade_Target),'%'):concat('Time\\n',$(custom:Fade_Time_Minutes)<60?concat($(custom:Fade_Time_Minutes),'m'):$(custom:Fade_Time_Minutes)%60==0?concat(floor($(custom:Fade_Time_Minutes)/60),'h'):concat(floor($(custom:Fade_Time_Minutes)/60),'h',$(custom:Fade_Time_Minutes)%60,'m'))"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: true
+          feedbacks:
+          - id: generated-left-rotary-offline-9
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-left-rotary-command-error-10
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+                rotate_left: []
+                rotate_right: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-brightness-left-7
+                  definitionId: brightness_adjust
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    amount: -1
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-brightness-right-8
+                  definitionId: brightness_adjust
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    amount: 1
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-target-left-1
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: max(0,$(custom:Fade_Target)-1)
+                      isExpression: true
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-target-right-2
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: min(100,$(custom:Fade_Target)+1)
+                      isExpression: true
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-time-left-3
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: max(0,$(custom:Fade_Time_Minutes)-1)
+                      isExpression: true
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-time-right-4
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)+1"
+                      isExpression: true
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-edit-left-5
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: max(0,$(custom:Preset_Edit_Value)-1)
+                      isExpression: true
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-edit-right-6
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)+1:min(100,$(custom:Preset_Edit_Value)+1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '1':
+          type: button
+          style:
+            text: |-
+              Fade
+              All
+            textExpression: false
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-Screen_0_Fade_Selected-all-selected-11
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Screen_0_Fade_Selected
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 255
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up:
+                - id: generated-Screen_0_Fade_Selected-all-select-12
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Fade_Selected
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '1'
+                      isExpression: false
+                  type: action
+                  children: {}
+                '800':
+                - id: generated-Screen_0_Fade_Selected-all-clear-13
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Fade_Selected
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 800
+          localVariables: []
+        '2':
+          type: button
+          style:
+            text: |-
+              Screen 0
+              Fade
+              $(novastar-coex:screen_0_brightness)
+            textExpression: false
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-Screen_0_Fade_Selected-selected-14
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Screen_0_Fade_Selected
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 255
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-screen-0-fade-offline-15
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-screen-0-fade-command-error-16
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down:
+                - id: generated-Screen_0_Fade_Selected-toggle-17
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Fade_Selected
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Screen_0_Fade_Selected)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '9':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1?'Edit\\nHold to Exit':$(custom:Brightness_Active_Mode)==0?'Restore':$(custom:Brightness_Active_Mode)==1?'Previous\\nTarget':'Previous\\nTime'"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-restore-edit-blink-47
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&blink(1000)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-restore-offline-48
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-restore-command-error-49
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+                '2000':
+                - id: generated-edit-bank-27
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Bank
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==0?$(custom:Brightness_Active_Mode):$(custom:Preset_Edit_Bank)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-toggle-28
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-slot-clear-29
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-edit-value-clear-30
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 2000
+            '1':
+              action_sets:
+                down: []
+                up:
+                - id: generated-restore-brightness-26
+                  definitionId: brightness
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    num: "$(custom:Screen_0_Previous_Brightness)"
+                  type: action
+                  children: {}
+                '2000':
+                - id: generated-edit-bank-31
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Bank
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==0?$(custom:Brightness_Active_Mode):$(custom:Preset_Edit_Bank)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-toggle-32
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-slot-clear-33
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-edit-value-clear-34
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 2000
+            '2':
+              action_sets:
+                down: []
+                up:
+                - id: generated-target-swap-group-21
+                  definitionId: action_group
+                  connectionId: internal
+                  options:
+                    execution_mode:
+                      value: sequential
+                      isExpression: false
+                  type: action
+                  children:
+                    default:
+                    - id: generated-target-save-temp-18
+                      definitionId: custom_variable_set_value
+                      connectionId: internal
+                      options:
+                        name:
+                          value: Brightness_Page_Temp
+                          isExpression: false
+                        create:
+                          value: false
+                          isExpression: false
+                        value:
+                          value: "$(custom:Fade_Target)"
+                          isExpression: true
+                      type: action
+                      children: {}
+                    - id: generated-target-restore-previous-19
+                      definitionId: custom_variable_set_value
+                      connectionId: internal
+                      options:
+                        name:
+                          value: Fade_Target
+                          isExpression: false
+                        create:
+                          value: false
+                          isExpression: false
+                        value:
+                          value: "$(custom:Fade_Target_Previous)"
+                          isExpression: true
+                      type: action
+                      children: {}
+                    - id: generated-target-save-current-20
+                      definitionId: custom_variable_set_value
+                      connectionId: internal
+                      options:
+                        name:
+                          value: Fade_Target_Previous
+                          isExpression: false
+                        create:
+                          value: false
+                          isExpression: false
+                        value:
+                          value: "$(custom:Brightness_Page_Temp)"
+                          isExpression: true
+                      type: action
+                      children: {}
+                '2000':
+                - id: generated-edit-bank-35
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Bank
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==0?$(custom:Brightness_Active_Mode):$(custom:Preset_Edit_Bank)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-toggle-36
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-slot-clear-37
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-edit-value-clear-38
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 2000
+            '3':
+              action_sets:
+                down: []
+                up:
+                - id: generated-time-swap-group-25
+                  definitionId: action_group
+                  connectionId: internal
+                  options:
+                    execution_mode:
+                      value: sequential
+                      isExpression: false
+                  type: action
+                  children:
+                    default:
+                    - id: generated-time-save-temp-22
+                      definitionId: custom_variable_set_value
+                      connectionId: internal
+                      options:
+                        name:
+                          value: Brightness_Page_Temp
+                          isExpression: false
+                        create:
+                          value: false
+                          isExpression: false
+                        value:
+                          value: "$(custom:Fade_Time_Minutes)"
+                          isExpression: true
+                      type: action
+                      children: {}
+                    - id: generated-time-restore-previous-23
+                      definitionId: custom_variable_set_value
+                      connectionId: internal
+                      options:
+                        name:
+                          value: Fade_Time_Minutes
+                          isExpression: false
+                        create:
+                          value: false
+                          isExpression: false
+                        value:
+                          value: "$(custom:Fade_Time_Previous_Minutes)"
+                          isExpression: true
+                      type: action
+                      children: {}
+                    - id: generated-time-save-current-24
+                      definitionId: custom_variable_set_value
+                      connectionId: internal
+                      options:
+                        name:
+                          value: Fade_Time_Previous_Minutes
+                          isExpression: false
+                        create:
+                          value: false
+                          isExpression: false
+                        value:
+                          value: "$(custom:Brightness_Page_Temp)"
+                          isExpression: true
+                      type: action
+                      children: {}
+                '2000':
+                - id: generated-edit-bank-39
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Bank
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==0?$(custom:Brightness_Active_Mode):$(custom:Preset_Edit_Bank)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-toggle-40
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-slot-clear-41
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-edit-value-clear-42
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 2000
+            '4':
+              action_sets:
+                down: []
+                up: []
+                '2000':
+                - id: generated-edit-bank-43
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Bank
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==0?$(custom:Brightness_Active_Mode):$(custom:Preset_Edit_Bank)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-toggle-44
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Active)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-edit-slot-clear-45
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-edit-value-clear-46
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 2000
+          localVariables: []
+        '10':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==2?concat('Edit\\n',$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)<60?concat($(custom:Preset_Edit_Value),'m'):$(custom:Preset_Edit_Value)%60==0?concat(floor($(custom:Preset_Edit_Value)/60),'h'):concat(floor($(custom:Preset_Edit_Value)/60),'h',$(custom:Preset_Edit_Value)%60,'m'):concat($(custom:Preset_Edit_Value),'%')):$(custom:Brightness_Active_Mode)==0?concat($(custom:Brightness_Preset_2),'%'):$(custom:Brightness_Active_Mode)==1?concat($(custom:Fade_Target_Preset_2),'%'):$(custom:Fade_Time_Preset_2)<60?concat($(custom:Fade_Time_Preset_2),'m'):$(custom:Fade_Time_Preset_2)%60==0?concat(floor($(custom:Fade_Time_Preset_2)/60),'h'):concat(floor($(custom:Fade_Time_Preset_2)/60),'h',$(custom:Fade_Time_Preset_2)%60,'m')"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-preset-2-edit-active-61
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Preset_Edit_Active
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13399808
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-preset-2-slot-blink-62
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==2&&blink(600)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-preset-2-capture-brightness-50
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Previous_Brightness
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(novastar-coex:screen_0_brightness)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-set-brightness-51
+                  definitionId: brightness
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    num: "$(custom:Brightness_Preset_2)"
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down:
+                - id: generated-preset-2-capture-target-52
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Previous
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-set-target-53
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target_Preset_2)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down:
+                - id: generated-preset-2-capture-time-54
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Previous_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-set-time-55
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Preset_2)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down:
+                - id: generated-preset-2-commit-brightness-56
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Preset_2
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==2&&$(custom:Preset_Edit_Bank)==0?$(custom:Preset_Edit_Value):$(custom:Brightness_Preset_2)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-commit-target-57
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Preset_2
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==2&&$(custom:Preset_Edit_Bank)==1?$(custom:Preset_Edit_Value):$(custom:Fade_Target_Preset_2)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-commit-time-58
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Preset_2
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==2&&$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value):$(custom:Fade_Time_Preset_2)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-load-value-59
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==2?0:$(custom:Preset_Edit_Bank)==0?$(custom:Brightness_Preset_2):$(custom:Preset_Edit_Bank)==1?$(custom:Fade_Target_Preset_2):$(custom:Fade_Time_Preset_2)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-2-toggle-slot-60
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==2?0:2"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '11':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==4?concat('Edit\\n',$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)<60?concat($(custom:Preset_Edit_Value),'m'):$(custom:Preset_Edit_Value)%60==0?concat(floor($(custom:Preset_Edit_Value)/60),'h'):concat(floor($(custom:Preset_Edit_Value)/60),'h',$(custom:Preset_Edit_Value)%60,'m'):concat($(custom:Preset_Edit_Value),'%')):$(custom:Brightness_Active_Mode)==0?concat($(custom:Brightness_Preset_4),'%'):$(custom:Brightness_Active_Mode)==1?concat($(custom:Fade_Target_Preset_4),'%'):$(custom:Fade_Time_Preset_4)<60?concat($(custom:Fade_Time_Preset_4),'m'):$(custom:Fade_Time_Preset_4)%60==0?concat(floor($(custom:Fade_Time_Preset_4)/60),'h'):concat(floor($(custom:Fade_Time_Preset_4)/60),'h',$(custom:Fade_Time_Preset_4)%60,'m')"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-preset-4-edit-active-74
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Preset_Edit_Active
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13399808
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-preset-4-slot-blink-75
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==4&&blink(600)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-preset-4-capture-brightness-63
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Previous_Brightness
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(novastar-coex:screen_0_brightness)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-set-brightness-64
+                  definitionId: brightness
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    num: "$(custom:Brightness_Preset_4)"
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down:
+                - id: generated-preset-4-capture-target-65
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Previous
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-set-target-66
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target_Preset_4)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down:
+                - id: generated-preset-4-capture-time-67
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Previous_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-set-time-68
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Preset_4)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down:
+                - id: generated-preset-4-commit-brightness-69
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Preset_4
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==4&&$(custom:Preset_Edit_Bank)==0?$(custom:Preset_Edit_Value):$(custom:Brightness_Preset_4)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-commit-target-70
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Preset_4
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==4&&$(custom:Preset_Edit_Bank)==1?$(custom:Preset_Edit_Value):$(custom:Fade_Target_Preset_4)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-commit-time-71
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Preset_4
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==4&&$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value):$(custom:Fade_Time_Preset_4)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-load-value-72
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==4?0:$(custom:Preset_Edit_Bank)==0?$(custom:Brightness_Preset_4):$(custom:Preset_Edit_Bank)==1?$(custom:Fade_Target_Preset_4):$(custom:Fade_Time_Preset_4)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-4-toggle-slot-73
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==4?0:4"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '13':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1?concat('Edit\\n',$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)<60?concat($(custom:Preset_Edit_Value),'m'):$(custom:Preset_Edit_Value)%60==0?concat(floor($(custom:Preset_Edit_Value)/60),'h'):concat(floor($(custom:Preset_Edit_Value)/60),'h',$(custom:Preset_Edit_Value)%60,'m'):concat($(custom:Preset_Edit_Value),'%')):concat('Target\\n',$(custom:Fade_Target),'%')"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-target-display-active-76
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Brightness_Active_Mode
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-target-display-edit-blink-77
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&blink(1000)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '14':
+          type: button
+          style:
+            text: concat('Time\n',$(custom:Fade_Time_Minutes)<60?concat($(custom:Fade_Time_Minutes),'m'):$(custom:Fade_Time_Minutes)%60==0?concat(floor($(custom:Fade_Time_Minutes)/60),'h'):concat(floor($(custom:Fade_Time_Minutes)/60),'h',$(custom:Fade_Time_Minutes)%60,'m'))
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-time-display-active-78
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Brightness_Active_Mode
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '2'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '16':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1?'Exit\\nPreset Edit':'Stop Fade'"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)+1"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-stop-edit-blink-83
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&blink(1000)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-stop-fade-blink-84
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(novastar-coex:brightness_fade_running)==1&&blink(1000)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 40960
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-stop-offline-85
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-stop-command-error-86
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down:
+                - id: generated-stop-fade-79
+                  definitionId: brightness_fade_stop
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options: {}
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-stop-exit-edit-80
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-stop-clear-slot-81
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-stop-clear-value-82
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '17':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1?concat('Edit\\n',$(custom:Preset_Edit_Value),$(custom:Preset_Edit_Bank)==2?'m':'%'):$(custom:Brightness_Active_Mode)==0?concat('Brightness\\n',$(novastar-coex:screen_0_brightness)):$(custom:Brightness_Active_Mode)==1?concat('Target\\n',$(custom:Fade_Target),'%'):concat('Time\\n',$(custom:Fade_Time_Minutes)<60?concat($(custom:Fade_Time_Minutes),'m'):$(custom:Fade_Time_Minutes)%60==0?concat(floor($(custom:Fade_Time_Minutes)/60),'h'):concat(floor($(custom:Fade_Time_Minutes)/60),'h',$(custom:Fade_Time_Minutes)%60,'m'))"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: true
+          feedbacks:
+          - id: generated-right-rotary-offline-95
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-right-rotary-command-error-96
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+                rotate_left: []
+                rotate_right: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-brightness-left-93
+                  definitionId: brightness_adjust
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    amount: -1
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-brightness-right-94
+                  definitionId: brightness_adjust
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    amount: 1
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-target-left-87
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: max(0,$(custom:Fade_Target)-1)
+                      isExpression: true
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-target-right-88
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: min(100,$(custom:Fade_Target)+1)
+                      isExpression: true
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-time-left-89
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: max(0,$(custom:Fade_Time_Minutes)-1)
+                      isExpression: true
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-time-right-90
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)+1"
+                      isExpression: true
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down: []
+                up: []
+                rotate_left:
+                - id: generated-edit-left-91
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: max(0,$(custom:Preset_Edit_Value)-1)
+                      isExpression: true
+                  type: action
+                  children: {}
+                rotate_right:
+                - id: generated-edit-right-92
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)+1:min(100,$(custom:Preset_Edit_Value)+1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld: []
+          localVariables: []
+      '1':
+        '1':
+          type: button
+          style:
+            text: |-
+              Adjust
+              All
+            textExpression: false
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-Screen_0_Adjust_Selected-all-selected-97
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Screen_0_Adjust_Selected
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 32768
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up:
+                - id: generated-Screen_0_Adjust_Selected-all-select-98
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Adjust_Selected
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '1'
+                      isExpression: false
+                  type: action
+                  children: {}
+                '800':
+                - id: generated-Screen_0_Adjust_Selected-all-clear-99
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Adjust_Selected
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+              options:
+                runWhileHeld:
+                - 800
+          localVariables: []
+        '2':
+          type: button
+          style:
+            text: |-
+              Screen 0
+              Adjust
+              $(novastar-coex:screen_0_brightness)
+            textExpression: false
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-Screen_0_Adjust_Selected-selected-100
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Screen_0_Adjust_Selected
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 32768
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-screen-0-adjust-offline-101
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-screen-0-adjust-command-error-102
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down:
+                - id: generated-Screen_0_Adjust_Selected-toggle-103
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Adjust_Selected
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Screen_0_Adjust_Selected)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '9':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==1?concat('Edit\\n',$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)<60?concat($(custom:Preset_Edit_Value),'m'):$(custom:Preset_Edit_Value)%60==0?concat(floor($(custom:Preset_Edit_Value)/60),'h'):concat(floor($(custom:Preset_Edit_Value)/60),'h',$(custom:Preset_Edit_Value)%60,'m'):concat($(custom:Preset_Edit_Value),'%')):$(custom:Brightness_Active_Mode)==0?concat($(custom:Brightness_Preset_1),'%'):$(custom:Brightness_Active_Mode)==1?concat($(custom:Fade_Target_Preset_1),'%'):$(custom:Fade_Time_Preset_1)<60?concat($(custom:Fade_Time_Preset_1),'m'):$(custom:Fade_Time_Preset_1)%60==0?concat(floor($(custom:Fade_Time_Preset_1)/60),'h'):concat(floor($(custom:Fade_Time_Preset_1)/60),'h',$(custom:Fade_Time_Preset_1)%60,'m')"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-preset-1-edit-active-115
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Preset_Edit_Active
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13399808
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-preset-1-slot-blink-116
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==1&&blink(600)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-preset-1-capture-brightness-104
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Previous_Brightness
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(novastar-coex:screen_0_brightness)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-set-brightness-105
+                  definitionId: brightness
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    num: "$(custom:Brightness_Preset_1)"
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down:
+                - id: generated-preset-1-capture-target-106
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Previous
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-set-target-107
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target_Preset_1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down:
+                - id: generated-preset-1-capture-time-108
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Previous_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-set-time-109
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Preset_1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down:
+                - id: generated-preset-1-commit-brightness-110
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Preset_1
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==1&&$(custom:Preset_Edit_Bank)==0?$(custom:Preset_Edit_Value):$(custom:Brightness_Preset_1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-commit-target-111
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Preset_1
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==1&&$(custom:Preset_Edit_Bank)==1?$(custom:Preset_Edit_Value):$(custom:Fade_Target_Preset_1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-commit-time-112
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Preset_1
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==1&&$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value):$(custom:Fade_Time_Preset_1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-load-value-113
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==1?0:$(custom:Preset_Edit_Bank)==0?$(custom:Brightness_Preset_1):$(custom:Preset_Edit_Bank)==1?$(custom:Fade_Target_Preset_1):$(custom:Fade_Time_Preset_1)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-1-toggle-slot-114
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '10':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==3?concat('Edit\\n',$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)<60?concat($(custom:Preset_Edit_Value),'m'):$(custom:Preset_Edit_Value)%60==0?concat(floor($(custom:Preset_Edit_Value)/60),'h'):concat(floor($(custom:Preset_Edit_Value)/60),'h',$(custom:Preset_Edit_Value)%60,'m'):concat($(custom:Preset_Edit_Value),'%')):$(custom:Brightness_Active_Mode)==0?concat($(custom:Brightness_Preset_3),'%'):$(custom:Brightness_Active_Mode)==1?concat($(custom:Fade_Target_Preset_3),'%'):$(custom:Fade_Time_Preset_3)<60?concat($(custom:Fade_Time_Preset_3),'m'):$(custom:Fade_Time_Preset_3)%60==0?concat(floor($(custom:Fade_Time_Preset_3)/60),'h'):concat(floor($(custom:Fade_Time_Preset_3)/60),'h',$(custom:Fade_Time_Preset_3)%60,'m')"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-preset-3-edit-active-128
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Preset_Edit_Active
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13399808
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-preset-3-slot-blink-129
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==3&&blink(600)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-preset-3-capture-brightness-117
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Previous_Brightness
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(novastar-coex:screen_0_brightness)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-set-brightness-118
+                  definitionId: brightness
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    num: "$(custom:Brightness_Preset_3)"
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down:
+                - id: generated-preset-3-capture-target-119
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Previous
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-set-target-120
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target_Preset_3)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down:
+                - id: generated-preset-3-capture-time-121
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Previous_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-set-time-122
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Preset_3)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down:
+                - id: generated-preset-3-commit-brightness-123
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Preset_3
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==3&&$(custom:Preset_Edit_Bank)==0?$(custom:Preset_Edit_Value):$(custom:Brightness_Preset_3)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-commit-target-124
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Preset_3
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==3&&$(custom:Preset_Edit_Bank)==1?$(custom:Preset_Edit_Value):$(custom:Fade_Target_Preset_3)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-commit-time-125
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Preset_3
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==3&&$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value):$(custom:Fade_Time_Preset_3)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-load-value-126
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==3?0:$(custom:Preset_Edit_Bank)==0?$(custom:Brightness_Preset_3):$(custom:Preset_Edit_Bank)==1?$(custom:Fade_Target_Preset_3):$(custom:Fade_Time_Preset_3)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-3-toggle-slot-127
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==3?0:3"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '11':
+          type: button
+          style:
+            text: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==5?concat('Edit\\n',$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value)<60?concat($(custom:Preset_Edit_Value),'m'):$(custom:Preset_Edit_Value)%60==0?concat(floor($(custom:Preset_Edit_Value)/60),'h'):concat(floor($(custom:Preset_Edit_Value)/60),'h',$(custom:Preset_Edit_Value)%60,'m'):concat($(custom:Preset_Edit_Value),'%')):$(custom:Brightness_Active_Mode)==0?concat($(custom:Brightness_Preset_5),'%'):$(custom:Brightness_Active_Mode)==1?concat($(custom:Fade_Target_Preset_5),'%'):$(custom:Fade_Time_Preset_5)<60?concat($(custom:Fade_Time_Preset_5),'m'):$(custom:Fade_Time_Preset_5)%60==0?concat(floor($(custom:Fade_Time_Preset_5)/60),'h'):concat(floor($(custom:Fade_Time_Preset_5)/60),'h',$(custom:Fade_Time_Preset_5)%60,'m')"
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==1?($(custom:Preset_Edit_Slot)==0?1:5):$(custom:Brightness_Active_Mode)==0?($(custom:Screen_0_Adjust_Selected)==1?2:1):$(custom:Brightness_Active_Mode)+2"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-preset-5-edit-active-141
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Preset_Edit_Active
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13399808
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-preset-5-slot-blink-142
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(custom:Preset_Edit_Active)==1&&$(custom:Preset_Edit_Slot)==5&&blink(600)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-preset-5-capture-brightness-130
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Screen_0_Previous_Brightness
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(novastar-coex:screen_0_brightness)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-set-brightness-131
+                  definitionId: brightness
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    num: "$(custom:Brightness_Preset_5)"
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '2':
+              action_sets:
+                down:
+                - id: generated-preset-5-capture-target-132
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Previous
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-set-target-133
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Target_Preset_5)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '3':
+              action_sets:
+                down:
+                - id: generated-preset-5-capture-time-134
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Previous_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Minutes)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-set-time-135
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Minutes
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Fade_Time_Preset_5)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+            '4':
+              action_sets:
+                down:
+                - id: generated-preset-5-commit-brightness-136
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Preset_5
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==5&&$(custom:Preset_Edit_Bank)==0?$(custom:Preset_Edit_Value):$(custom:Brightness_Preset_5)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-commit-target-137
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Target_Preset_5
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==5&&$(custom:Preset_Edit_Bank)==1?$(custom:Preset_Edit_Value):$(custom:Fade_Target_Preset_5)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-commit-time-138
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Fade_Time_Preset_5
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==5&&$(custom:Preset_Edit_Bank)==2?$(custom:Preset_Edit_Value):$(custom:Fade_Time_Preset_5)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-load-value-139
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==5?0:$(custom:Preset_Edit_Bank)==0?$(custom:Brightness_Preset_5):$(custom:Preset_Edit_Bank)==1?$(custom:Fade_Target_Preset_5):$(custom:Fade_Time_Preset_5)"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-preset-5-toggle-slot-140
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Preset_Edit_Slot)==5?0:5"
+                      isExpression: true
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '13':
+          type: button
+          style:
+            text: |-
+              Fade Target
+              Select
+            textExpression: false
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-mode-1-active-147
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Brightness_Active_Mode
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '1'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down:
+                - id: generated-mode-1-toggle-143
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Active_Mode
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Brightness_Active_Mode)==1?0:1"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-mode-1-exit-edit-144
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-mode-1-clear-slot-145
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-mode-1-clear-value-146
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '14':
+          type: button
+          style:
+            text: |-
+              Fade Time
+              Select
+            textExpression: false
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: auto
+            stepExpression: ''
+            rotaryActions: false
+          feedbacks:
+          - id: generated-mode-2-active-152
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: custom:Brightness_Active_Mode
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '2'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 16750848
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down:
+                - id: generated-mode-2-toggle-148
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Brightness_Active_Mode
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: "$(custom:Brightness_Active_Mode)==2?0:2"
+                      isExpression: true
+                  type: action
+                  children: {}
+                - id: generated-mode-2-exit-edit-149
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Active
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-mode-2-clear-slot-150
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Slot
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                - id: generated-mode-2-clear-value-151
+                  definitionId: custom_variable_set_value
+                  connectionId: internal
+                  options:
+                    name:
+                      value: Preset_Edit_Value
+                      isExpression: false
+                    create:
+                      value: false
+                      isExpression: false
+                    value:
+                      value: '0'
+                      isExpression: false
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+        '16':
+          type: button
+          style:
+            text: concat('Fade\n',$(custom:Fade_Target),'% / ',$(custom:Fade_Time_Minutes)<60?concat($(custom:Fade_Time_Minutes),'m'):$(custom:Fade_Time_Minutes)%60==0?concat(floor($(custom:Fade_Time_Minutes)/60),'h'):concat(floor($(custom:Fade_Time_Minutes)/60),'h',$(custom:Fade_Time_Minutes)%60,'m'))
+            textExpression: true
+            size: '14'
+            png64: 
+            alignment: center:center
+            pngalignment: center:center
+            color: 16777215
+            bgcolor: 0
+            show_topbar: default
+          options:
+            stepProgression: expression
+            stepExpression: "$(custom:Preset_Edit_Active)==0&&$(custom:Screen_0_Fade_Selected)==1?2:1"
+            rotaryActions: false
+          feedbacks:
+          - id: generated-execute-fade-fade-blink-154
+            definitionId: check_expression
+            connectionId: internal
+            options:
+              expression:
+                value: "$(novastar-coex:brightness_fade_running)==1&&blink(1000)"
+                isExpression: true
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 40960
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-execute-fade-offline-155
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_feedback_valid
+                isExpression: false
+              op:
+                value: eq
+                isExpression: false
+              value:
+                value: '0'
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 4473924
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          - id: generated-execute-fade-command-error-156
+            definitionId: variable_value
+            connectionId: internal
+            options:
+              variable:
+                value: novastar-coex:brightness_command_error
+                isExpression: false
+              op:
+                value: ne
+                isExpression: false
+              value:
+                value: ''
+                isExpression: false
+            type: feedback
+            style:
+              color: 16777215
+              bgcolor: 13369344
+            isInverted:
+              value: false
+              isExpression: false
+            children: {}
+          steps:
+            '0':
+              action_sets:
+                down: []
+                up: []
+              options:
+                runWhileHeld: []
+            '1':
+              action_sets:
+                down:
+                - id: generated-execute-fade-153
+                  definitionId: brightness_fade
+                  connectionId: NGNwDKmzRFQ71mMGSEZT6
+                  options:
+                    target: "$(custom:Fade_Target)"
+                    duration: "$(custom:Fade_Time_Minutes)"
+                  type: action
+                  children: {}
+                up: []
+              options:
+                runWhileHeld: []
+          localVariables: []
+    gridSize:
+      minRow: 0
+      maxRow: 1
+      minColumn: 0
+      maxColumn: 17
+triggers: {}
+triggerCollections: []
+custom_variables:
+  Screen_0_Adjust_Selected:
+    description: 0 unselected, 1 selected
+    defaultValue: 0
+    persistCurrentValue: true
+    sortOrder: 1
+  Screen_0_Fade_Selected:
+    description: Independent fade selection
+    defaultValue: 0
+    persistCurrentValue: true
+    sortOrder: 2
+  Screen_0_Previous_Brightness:
+    description: Restore buffer
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 3
+  Brightness_Active_Mode:
+    description: 0 adjust, 1 target, 2 time
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 4
+  Fade_Target:
+    description: Percentage without %
+    defaultValue: '75'
+    persistCurrentValue: true
+    sortOrder: 5
+  Fade_Target_Previous:
+    description: Previous target
+    defaultValue: '75'
+    persistCurrentValue: true
+    sortOrder: 6
+  Fade_Time_Minutes:
+    description: Current fade duration in minutes
+    defaultValue: '15'
+    persistCurrentValue: true
+    sortOrder: 7
+  Fade_Time_Previous_Minutes:
+    description: Previous duration in minutes
+    defaultValue: '15'
+    persistCurrentValue: true
+    sortOrder: 8
+  Preset_Edit_Active:
+    description: 0 inactive, 1 active
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 9
+  Preset_Edit_Bank:
+    description: 0 brightness, 1 target, 2 time
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 10
+  Preset_Edit_Slot:
+    description: 0 none, otherwise 1–5
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 11
+  Preset_Edit_Value:
+    description: Encoder working value
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 12
+  Brightness_Preset_1:
+    description: ''
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 13
+  Brightness_Preset_2:
+    description: ''
+    defaultValue: '25'
+    persistCurrentValue: true
+    sortOrder: 14
+  Brightness_Preset_3:
+    description: ''
+    defaultValue: '50'
+    persistCurrentValue: true
+    sortOrder: 15
+  Brightness_Preset_4:
+    description: ''
+    defaultValue: '75'
+    persistCurrentValue: true
+    sortOrder: 16
+  Brightness_Preset_5:
+    description: ''
+    defaultValue: '90'
+    persistCurrentValue: true
+    sortOrder: 17
+  Fade_Target_Preset_1:
+    description: ''
+    defaultValue: '0'
+    persistCurrentValue: true
+    sortOrder: 18
+  Fade_Target_Preset_2:
+    description: ''
+    defaultValue: '25'
+    persistCurrentValue: true
+    sortOrder: 19
+  Fade_Target_Preset_3:
+    description: ''
+    defaultValue: '50'
+    persistCurrentValue: true
+    sortOrder: 20
+  Fade_Target_Preset_4:
+    description: ''
+    defaultValue: '75'
+    persistCurrentValue: true
+    sortOrder: 21
+  Fade_Target_Preset_5:
+    description: ''
+    defaultValue: '90'
+    persistCurrentValue: true
+    sortOrder: 22
+  Fade_Time_Preset_1:
+    description: ''
+    defaultValue: '15'
+    persistCurrentValue: true
+    sortOrder: 23
+  Fade_Time_Preset_2:
+    description: ''
+    defaultValue: '30'
+    persistCurrentValue: true
+    sortOrder: 24
+  Fade_Time_Preset_3:
+    description: ''
+    defaultValue: '60'
+    persistCurrentValue: true
+    sortOrder: 25
+  Fade_Time_Preset_4:
+    description: ''
+    defaultValue: '90'
+    persistCurrentValue: true
+    sortOrder: 26
+  Fade_Time_Preset_5:
+    description: ''
+    defaultValue: '300'
+    persistCurrentValue: true
+    sortOrder: 27
+  Brightness_Page_Temp:
+    description: Internal temporary value used when swapping Previous values
+    defaultValue: '0'
+    persistCurrentValue: false
+    sortOrder: 28
+customVariablesCollections: []
+expressionVariables: {}
+expressionVariablesCollections: []
+instances:
+  NGNwDKmzRFQ71mMGSEZT6:
+    moduleInstanceType: connection
+    moduleId: novastar-coex
+    moduleVersionId: dev
+    updatePolicy: stable
+    sortOrder: 1
+    label: novastar-coex
+    isFirstInit: false
+    config:
+      port: 8001
+    secrets: {}
+    lastUpgradeIndex: -1
+    enabled: true
+connectionCollections: []
+surfaces: {}
+surfaceGroups: {}
+surfacesRemote: {}
+surfaceInstances:
+  WISo47HNbGH4VRpK7tKz-:
+    moduleInstanceType: surface
+    moduleId: elgato-stream-deck
+    moduleVersionId: builtin
+    label: elgato-stream-deck
+    config: {}
+    isFirstInit: true
+    lastUpgradeIndex: 0
+    enabled: true
+    sortOrder: 0
+    updatePolicy: stable
+surfaceInstanceCollections: []
