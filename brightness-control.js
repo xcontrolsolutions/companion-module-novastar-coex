@@ -17,6 +17,11 @@ function setFadeRunning(self, running) {
   notifyState(self)
 }
 
+function setFadeRemainingSeconds(self, seconds = 0) {
+  self.brightnessFadeRemainingSeconds = Math.max(0, Math.ceil(Number(seconds) || 0))
+  notifyState(self)
+}
+
 function parseBrightness(value) {
   const requested = Number(String(value).trim().replace(/%$/, ''))
   if (!Number.isFinite(requested)) throw new Error(`Invalid brightness value "${value}"`)
@@ -24,6 +29,14 @@ function parseBrightness(value) {
 }
 
 function parseDurationMinutes(value) {
+  const duration = Number(String(value).trim())
+  if (!Number.isFinite(duration) || duration < 0) {
+    throw new Error(`Invalid fade duration "${value}"`)
+  }
+  return duration
+}
+
+function parseDurationSeconds(value) {
   const duration = Number(String(value).trim())
   if (!Number.isFinite(duration) || duration < 0) {
     throw new Error(`Invalid fade duration "${value}"`)
@@ -46,12 +59,30 @@ async function parseVariableOption(context, value) {
 
 async function writeBrightness(self, value) {
   const brightness = clampBrightness(Number(value))
+  const normalizedBrightness = brightness / 100
   if (!self.novastar) throw new Error('NovaStar is not connected')
 
-  if (typeof self.novastar.screenbrightness === 'function') {
-    return self.novastar.screenbrightness(brightness, null)
+  if (self.novastar.baseurl && typeof self.novastar.screen === 'function') {
+    const screenData = await self.novastar.screen()
+    const screenIds = screenData?.screens?.map((screen) => screen.screenID).filter((screenId) => screenId !== undefined)
+    if (!screenIds?.length) throw new Error('No screens found to adjust brightness')
+
+    const response = await fetch(`${self.novastar.baseurl}/api/v1/screen/brightness`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        brightness: normalizedBrightness,
+        screenIdList: screenIds,
+      }),
+    })
+    const data = await response.json()
+    if (!response.ok || data?.code) {
+      throw new Error(data?.message || response.statusText || 'Failed to set screen brightness')
+    }
+    return data
   }
-  return self.novastar.brightness(brightness, null)
+
+  return self.novastar.brightness(brightness === 1 ? 1.000001 : brightness, null)
 }
 
 async function readBrightness(self) {
@@ -72,6 +103,7 @@ function stopBrightnessFade(self, logCancellation = false) {
   }
 
   if (wasRunning && logCancellation) self.log('info', 'Brightness fade cancelled')
+  setFadeRemainingSeconds(self, 0)
   setFadeRunning(self, false)
   return wasRunning
 }
@@ -129,6 +161,7 @@ async function startBrightnessFade(self, targetValue, durationSeconds) {
     if (durationMs === 0 || Math.round(start) === Math.round(target)) {
       await writeBrightness(self, target)
       setCommandError(self)
+      setFadeRemainingSeconds(self, 0)
       setFadeRunning(self, false)
       self.log('info', `Brightness set to ${target}`)
       return true
@@ -137,12 +170,14 @@ async function startBrightnessFade(self, targetValue, durationSeconds) {
     const startedAt = Date.now()
     let lastBrightness = Math.round(start)
     setCommandError(self)
+    setFadeRemainingSeconds(self, duration)
     setFadeRunning(self, true)
     self.log('info', `Fading brightness from ${start} to ${target} over ${duration} seconds`)
 
     const updateFade = async () => {
       if (generation !== self.brightnessFadeGeneration) return
       const progress = Math.min(1, (Date.now() - startedAt) / durationMs)
+      setFadeRemainingSeconds(self, Math.max(0, (durationMs - (Date.now() - startedAt)) / 1000))
       const brightness = progress === 1 ? target : Math.round(start + (target - start) * progress)
 
       try {
@@ -156,12 +191,14 @@ async function startBrightnessFade(self, targetValue, durationSeconds) {
           self.brightnessFadeTimer = setTimeout(updateFade, 1000)
         } else {
           self.brightnessFadeTimer = null
+          setFadeRemainingSeconds(self, 0)
           setFadeRunning(self, false)
           setCommandError(self)
           self.log('info', `Brightness fade completed at ${target}`)
         }
       } catch (error) {
         self.brightnessFadeTimer = null
+        setFadeRemainingSeconds(self, 0)
         setFadeRunning(self, false)
         setCommandError(self, error)
         self.log('error', `Brightness fade failed: ${error.message || error.error || error}`)
@@ -202,7 +239,12 @@ function getConditionalActionDefinitions(self) {
       name: 'Set Brightness If Enabled',
       options: [
         enabledOption,
-        variableTextOption('brightness', 'Brightness', '50', 'Brightness from 0-100 or a variable.'),
+        variableTextOption(
+          'brightness',
+          'Brightness',
+          '50',
+          'TEST MARKER 2026-06-29: normalized 1% brightness build. Brightness from 0-100 or a variable.'
+        ),
       ],
       callback: async (event, context) => {
         const enabled = await parseVariableOption(context, event.options.enabled)
@@ -240,7 +282,12 @@ function getConditionalActionDefinitions(self) {
       name: 'Fade Brightness If Enabled',
       options: [
         enabledOption,
-        variableTextOption('target', 'Target Brightness', '75', 'Target from 0-100 or a variable.'),
+        variableTextOption(
+          'target',
+          'Target Brightness',
+          '75',
+          'TEST MARKER 2026-06-29: normalized 1% brightness build. Target from 0-100 or a variable.'
+        ),
         variableTextOption('duration', 'Duration in Minutes', '15', 'Duration in minutes or a variable.'),
       ],
       callback: async (event, context) => {
@@ -253,6 +300,34 @@ function getConditionalActionDefinitions(self) {
           const target = parseBrightness(targetValue)
           const duration = parseDurationMinutes(durationValue)
           await startBrightnessFade(self, target, duration * 60)
+        } catch (error) {
+          setCommandError(self, error)
+          self.log('error', error.message || String(error))
+        }
+      },
+    },
+    brightness_fade_seconds_conditional: {
+      name: 'Fade Brightness If Enabled (Seconds)',
+      options: [
+        enabledOption,
+        variableTextOption(
+          'target',
+          'Target Brightness',
+          '75',
+          'TEST MARKER 2026-06-29: normalized 1% brightness build. Target from 0-100 or a variable.'
+        ),
+        variableTextOption('duration', 'Duration in Seconds', '60', 'Duration in seconds or a variable.'),
+      ],
+      callback: async (event, context) => {
+        const enabled = await parseVariableOption(context, event.options.enabled)
+        if (!parseEnabled(enabled)) return
+
+        try {
+          const targetValue = await parseVariableOption(context, event.options.target)
+          const durationValue = await parseVariableOption(context, event.options.duration)
+          const target = parseBrightness(targetValue)
+          const duration = parseDurationSeconds(durationValue)
+          await startBrightnessFade(self, target, duration)
         } catch (error) {
           setCommandError(self, error)
           self.log('error', error.message || String(error))
@@ -272,6 +347,7 @@ module.exports = {
   getConditionalActionDefinitions,
   parseBrightness,
   parseDurationMinutes,
+  parseDurationSeconds,
   setBrightness,
   setCommandError,
   startBrightnessFade,

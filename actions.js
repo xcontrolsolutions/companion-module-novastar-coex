@@ -37,14 +37,14 @@ module.exports = function (self) {
       },
     },
     brightness: {
-      name: 'Brightness',
+      name: 'Brightness DEV MARKER 2026-06-29',
       options: [
         {
           id: 'num',
           type: 'textinput',
           label: 'Brightness',
           default: '50',
-          tooltip: 'Enter 0-100 or use a variable. Nonnumeric and negative values become 0; values above 100 become 100.',
+          tooltip: 'TEST MARKER 2026-06-29: normalized 1% brightness build. Enter 0-100 or use a variable. Nonnumeric and negative values become 0; values above 100 become 100.',
           useVariables: true,
         },
       ],
@@ -83,14 +83,14 @@ module.exports = function (self) {
       },
     },
     brightness_fade: {
-      name: 'Fade Brightness',
+      name: 'Fade Brightness DEV MARKER 2026-06-29',
       options: [
         {
           id: 'target',
           type: 'textinput',
           label: 'Target Brightness',
           default: '15',
-          tooltip: 'Target value from 0-100 or a variable. Values are clamped to 0-100.',
+          tooltip: 'TEST MARKER 2026-06-29: normalized 1% brightness build. Target value from 0-100 or a variable. Values are clamped to 0-100.',
           useVariables: true,
         },
         {
@@ -118,6 +118,44 @@ module.exports = function (self) {
           return
         }
         await startBrightnessFade(self, target, requestedDuration * 60)
+      },
+    },
+    brightness_fade_seconds: {
+      name: 'Fade Brightness Seconds DEV MARKER 2026-06-29',
+      options: [
+        {
+          id: 'target',
+          type: 'textinput',
+          label: 'Target Brightness',
+          default: '15',
+          tooltip: 'TEST MARKER 2026-06-29: normalized 1% brightness build. Target value from 0-100 or a variable. Values are clamped to 0-100.',
+          useVariables: true,
+        },
+        {
+          id: 'duration',
+          type: 'textinput',
+          label: 'Duration in Seconds',
+          default: '60',
+          tooltip: 'Fade duration in seconds or a variable. Zero changes brightness immediately.',
+          useVariables: true,
+        },
+      ],
+      callback: async (event, context) => {
+        const parsedTarget = await context.parseVariablesInString(String(getOptionValue(event.options.target)))
+        const parsedDuration = await context.parseVariablesInString(String(getOptionValue(event.options.duration)))
+        const requestedTarget = Number(parsedTarget.trim().replace(/%$/, ''))
+        const requestedDuration = Number(parsedDuration.trim())
+        const target = Number.isFinite(requestedTarget)
+          ? Math.min(100, Math.max(0, requestedTarget))
+          : 0
+
+        if (!Number.isFinite(requestedDuration) || requestedDuration < 0) {
+          const error = new Error(`Invalid fade duration "${parsedDuration}"; no fade started`)
+          self.log('warn', error.message)
+          setCommandError(self, error)
+          return
+        }
+        await startBrightnessFade(self, target, requestedDuration)
       },
     },
     gamma: {

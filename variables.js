@@ -29,6 +29,14 @@ module.exports = async function (self) {
       name: 'Brightness Fade Running',
     },
     {
+      variableId: 'brightness_fade_remaining',
+      name: 'Brightness Fade Remaining',
+    },
+    {
+      variableId: 'brightness_fade_remaining_seconds',
+      name: 'Brightness Fade Remaining Seconds',
+    },
+    {
       variableId: 'brightness_command_error',
       name: 'Latest Brightness Command Error',
     },

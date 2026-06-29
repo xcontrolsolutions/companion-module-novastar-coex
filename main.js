@@ -24,6 +24,7 @@ class ModuleInstance extends InstanceBase {
     this.brightnessFadeTimer = null
     this.brightnessFadeGeneration = 0
     this.brightnessFadeRunning = false
+    this.brightnessFadeRemainingSeconds = 0
     this.brightnessCommandError = ''
     this.brightnessFeedbackValid = false
     this.displayParams = [] // Store display parameters
@@ -46,6 +47,7 @@ class ModuleInstance extends InstanceBase {
     this.initialDataFetched = false // Reset flag
     this.brightnessFadeGeneration += 1
     this.brightnessFadeRunning = false
+    this.brightnessFadeRemainingSeconds = 0
     this.brightnessCommandError = ''
     this.brightnessFeedbackValid = false
 
@@ -286,9 +288,20 @@ class ModuleInstance extends InstanceBase {
 
   // Method to update variable values based on stored data
   checkVariables() {
+    const fadeRemainingSeconds = Math.max(0, Math.ceil(Number(this.brightnessFadeRemainingSeconds) || 0))
+    const fadeRemainingMinutes = Math.floor(fadeRemainingSeconds / 60)
+    const fadeRemainingRemainder = fadeRemainingSeconds % 60
+    const fadeRemainingText =
+      fadeRemainingSeconds <= 0
+        ? ''
+        : fadeRemainingMinutes > 0
+          ? `${fadeRemainingMinutes}:${String(fadeRemainingRemainder).padStart(2, '0')}`
+          : `${fadeRemainingSeconds}s`
     const variableValues = {
       brightness_feedback_valid: this.brightnessFeedbackValid ? 1 : 0,
       brightness_fade_running: this.brightnessFadeRunning ? 1 : 0,
+      brightness_fade_remaining: fadeRemainingText,
+      brightness_fade_remaining_seconds: fadeRemainingSeconds,
       brightness_command_error: this.brightnessCommandError || '',
     }
     if (Array.isArray(this.displayParams)) {
