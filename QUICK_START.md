@@ -10,13 +10,14 @@ Create a Companion backup before importing it.
 
 ## 2. Import and Connect
 
-1. Import the file matching the required number of MX40s, from `1_MX40_brightness_page.companionconfig` through `6_MX40_brightness_page.companionconfig`.
+1. Import the file matching the required number of MX40s, from `1_MX40_brightness_page.companionconfig` through `10_MX40_brightness_page.companionconfig`.
 2. Open **Connections** and select each NovaStar COEX connection.
 3. Enter a unique MX40 **Target IP** for every connection.
-4. Leave the port at `8001` unless the controller uses a different port.
-5. Confirm the connection reports **OK**.
+4. Enter the desired **Screen Name** for each MX40. The brightness page buttons use this name.
+5. Leave the port at `8001` unless the controller uses a different port.
+6. Confirm the connection reports **OK**.
 
-The first connection is labeled `novastar-coex`; additional connections are labeled `novastar-coex-2` through `novastar-coex-6` as needed.
+Connections are labeled `novastar-coex-1` through `novastar-coex-10` as needed.
 
 When connected, each screen displays its live brightness percentage. `--%` means that screen's live feedback is unavailable.
 
@@ -32,8 +33,8 @@ Pressing any non-Direct Edit button deselects all Direct Edit buttons after that
 ## 4. Configure a Fade
 
 1. Press the required screen's **Fade** button or **Fade All**.
-2. Press **Fade Target Edit**. Use either rotary or an amber preset to choose the target percentage.
-3. Press **Fade Time Edit**. Use either rotary or a purple preset to choose the duration.
+2. Press the **Target** button. Use either rotary or an amber preset to choose the target percentage.
+3. Press the **Time** button. Use either rotary or a purple preset to choose the duration.
 4. Press **Execute Fade**.
 
 The supplied time presets are:
@@ -60,13 +61,13 @@ Target and time values swap with their previous values, allowing the button to t
 
 1. Select the preset family:
    - Select a Direct Edit button for brightness presets.
-   - Press **Fade Target Edit** for target presets.
-   - Press **Fade Time Edit** for time presets.
-2. Hold the **Previous** button for 2 seconds.
-3. Press the preset slot to edit.
-4. Turn either rotary encoder to change its value.
-5. Press the same preset slot again to save it.
-6. Hold **Previous** for 2 seconds, or press **Exit Preset Edit**, to leave edit mode.
+   - Press **Target** for target presets.
+   - Press **Time** for time presets.
+2. Hold the preset slot to enter edit mode with that preset selected.
+3. Turn either rotary encoder to change its value.
+4. Hold the selected preset to save only that preset.
+5. Press **Save ALL & Exit Edit** to save the active edit value and leave edit mode.
+6. Press **Discard Changes** to leave edit mode without saving the active edit value.
 
 The active edit slot flashes with a lighter shade of its green, amber, or purple family.
 
@@ -110,4 +111,4 @@ Offline gray and error red override the normal family colors.
 
 ## 9. Multiple MX40s
 
-Ready-to-import configurations are provided for one through six MX40s. Every shared rotary, preset, Previous, Stop, and Execute control already contains the conditional actions required for all instances in that file.
+Ready-to-import configurations are provided for one through ten MX40s. Every shared rotary, preset, Previous, Stop, and Execute control already contains the actions required for all instances in that file.

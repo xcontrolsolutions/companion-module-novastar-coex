@@ -36,18 +36,20 @@ function parseEnabled(value) {
   return !['', '0', 'false', 'off', 'no', 'null', 'undefined'].includes(normalized)
 }
 
+function getOptionValue(option) {
+  return option && typeof option === 'object' && 'value' in option ? option.value : option
+}
+
 async function parseVariableOption(context, value) {
-  return context.parseVariablesInString(String(value ?? ''))
+  return context.parseVariablesInString(String(getOptionValue(value) ?? ''))
 }
 
 async function writeBrightness(self, value) {
   const brightness = clampBrightness(Number(value))
   if (!self.novastar) throw new Error('NovaStar is not connected')
 
-  // screenbrightness accepts a normalized value. Sending one consistently
-  // prevents 1% from being interpreted as the normalized value 1.0 (100%).
   if (typeof self.novastar.screenbrightness === 'function') {
-    return self.novastar.screenbrightness(brightness / 100, null)
+    return self.novastar.screenbrightness(brightness, null)
   }
   return self.novastar.brightness(brightness, null)
 }
@@ -222,11 +224,16 @@ function getConditionalActionDefinitions(self) {
         variableTextOption('amount', 'Adjustment', '1', 'Adjustment amount or a variable.'),
       ],
       callback: async (event, context) => {
-        const enabled = await parseVariableOption(context, event.options.enabled)
-        if (!parseEnabled(enabled)) return
+        try {
+          const enabled = await parseVariableOption(context, event.options.enabled)
+          if (!parseEnabled(enabled)) return
 
-        const amount = await parseVariableOption(context, event.options.amount)
-        await adjustBrightness(self, amount, 'Conditional Brightness Adjustment')
+          const amount = await parseVariableOption(context, event.options.amount)
+          await adjustBrightness(self, amount, 'Conditional Brightness Adjustment')
+        } catch (error) {
+          setCommandError(self, error)
+          self.log('error', error.message || String(error))
+        }
       },
     },
     brightness_fade_conditional: {

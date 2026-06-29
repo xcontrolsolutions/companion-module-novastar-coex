@@ -12,6 +12,11 @@ const novastar = {}
 const sources = []
 const sourcelist = []
 
+function getScreenName(config, index) {
+  const configuredName = config?.[`screen_${index}_name`]
+  return String(configuredName || `Screen ${index + 1}`).trim() || `Screen ${index + 1}`
+}
+
 class ModuleInstance extends InstanceBase {
   constructor(internal) {
     super(internal)
@@ -289,6 +294,7 @@ class ModuleInstance extends InstanceBase {
     if (Array.isArray(this.displayParams)) {
       this.displayParams.forEach((param, index) => {
         variableValues[`screen_${index}_id`] = param.screenId
+        variableValues[`screen_${index}_name`] = getScreenName(this.config, index)
         const rawBrightness = Number(param.brightness)
         const brightnessPercent = rawBrightness <= 1 ? rawBrightness * 100 : rawBrightness
         variableValues[`screen_${index}_brightness`] =
@@ -306,6 +312,7 @@ class ModuleInstance extends InstanceBase {
     if (!this.brightnessFeedbackValid || !this.displayParams?.[0]) {
       variableValues['screen_0_brightness'] = '--%'
     }
+    variableValues['screen_0_name'] = getScreenName(this.config, 0)
     // Set the current preset name variable
     variableValues['current_preset_name'] = this.currentPresetName || 'Not Activated'
 
@@ -389,6 +396,13 @@ class ModuleInstance extends InstanceBase {
         width: 4,
         regex: Regex.PORT,
         default: 8001,
+      },
+      {
+        type: 'textinput',
+        id: 'screen_0_name',
+        label: 'Screen Name',
+        width: 12,
+        default: 'Screen 1',
       },
     ]
   }

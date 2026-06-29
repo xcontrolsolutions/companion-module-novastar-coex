@@ -5,6 +5,10 @@ module.exports = async function (self) {
       name: 'Screen 1 ID',
     },
     {
+      variableId: 'screen_0_name',
+      name: 'Screen 1 Name',
+    },
+    {
       variableId: 'screen_0_brightness',
       name: 'Screen 1 Brightness',
     },
@@ -40,6 +44,11 @@ module.exports = async function (self) {
       variableDefinitions.push({
         variableId: `screen_${index}_id`,
         name: `${screenLabel} ID`,
+      })
+
+      variableDefinitions.push({
+        variableId: `screen_${index}_name`,
+        name: `${screenLabel} Name`,
       })
 
       // Add variable for Brightness

@@ -35,7 +35,7 @@ module.exports = function (self) {
       category: 'Brightness',
       name: 'Current Brightness',
       style: {
-        text: '$(this:screen_0_brightness)',
+        text: '$(this:screen_0_name)\n$(this:screen_0_brightness)',
         size: '30',
         color: 0xffffff,
         bgcolor: 0x000000,
@@ -56,7 +56,7 @@ module.exports = function (self) {
         rotaryActions: true,
       },
       style: {
-        text: 'Brightness\n$(this:screen_0_brightness)',
+        text: '$(this:screen_0_name)\n$(this:screen_0_brightness)',
         size: '14',
         color: 0xffffff,
         bgcolor: 0x000000,

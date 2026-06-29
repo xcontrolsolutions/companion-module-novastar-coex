@@ -7,6 +7,10 @@ const {
   startBrightnessFade,
 } = require('./brightness-control')
 
+function getOptionValue(option) {
+  return option && typeof option === 'object' && 'value' in option ? option.value : option
+}
+
 module.exports = function (self) {
   self.setActionDefinitions({
     ...getConditionalActionDefinitions(self),
@@ -45,7 +49,7 @@ module.exports = function (self) {
         },
       ],
       callback: async (event, context) => {
-        const parsedBrightness = await context.parseVariablesInString(String(event.options.num))
+        const parsedBrightness = await context.parseVariablesInString(String(getOptionValue(event.options.num)))
         const requestedBrightness = Number(parsedBrightness.trim().replace(/%$/, ''))
 
         const brightness = Number.isFinite(requestedBrightness)
@@ -74,13 +78,7 @@ module.exports = function (self) {
         },
       ],
       callback: async (event) => {
-        const amount = Number(event.options.amount)
-
-        if (!Number.isFinite(amount)) {
-          self.log('warn', `Invalid brightness adjustment "${event.options.amount}"; no change made`)
-          return
-        }
-
+        const amount = Number(getOptionValue(event.options.amount))
         await adjustBrightness(self, amount)
       },
     },
@@ -105,8 +103,8 @@ module.exports = function (self) {
         },
       ],
       callback: async (event, context) => {
-        const parsedTarget = await context.parseVariablesInString(String(event.options.target))
-        const parsedDuration = await context.parseVariablesInString(String(event.options.duration))
+        const parsedTarget = await context.parseVariablesInString(String(getOptionValue(event.options.target)))
+        const parsedDuration = await context.parseVariablesInString(String(getOptionValue(event.options.duration)))
         const requestedTarget = Number(parsedTarget.trim().replace(/%$/, ''))
         const requestedDuration = Number(parsedDuration.trim())
         const target = Number.isFinite(requestedTarget)
