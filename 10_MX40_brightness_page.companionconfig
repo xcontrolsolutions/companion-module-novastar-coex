@@ -35267,12 +35267,12 @@ custom_variables:
     sortOrder: 4
   Fade_Target:
     description: Percentage without %
-    defaultValue: 24
+    defaultValue: 50
     persistCurrentValue: true
     sortOrder: 5
   Fade_Target_Previous:
     description: Previous target
-    defaultValue: 94
+    defaultValue: 50
     persistCurrentValue: true
     sortOrder: 6
   Preset_Edit_Active:
@@ -35298,52 +35298,52 @@ custom_variables:
     currentValue: 0
   Brightness_Preset_1:
     description: ''
-    defaultValue: '0'
+    defaultValue: 0
     persistCurrentValue: true
     sortOrder: 13
   Brightness_Preset_2:
     description: ''
-    defaultValue: 40
+    defaultValue: 25
     persistCurrentValue: true
     sortOrder: 14
   Brightness_Preset_3:
     description: ''
-    defaultValue: '50'
+    defaultValue: 50
     persistCurrentValue: true
     sortOrder: 15
   Brightness_Preset_4:
     description: ''
-    defaultValue: 74
+    defaultValue: 75
     persistCurrentValue: true
     sortOrder: 16
   Brightness_Preset_5:
     description: ''
-    defaultValue: '90'
+    defaultValue: 90
     persistCurrentValue: true
     sortOrder: 17
   Fade_Target_Preset_1:
     description: ''
-    defaultValue: '0'
+    defaultValue: 0
     persistCurrentValue: true
     sortOrder: 18
   Fade_Target_Preset_2:
     description: ''
-    defaultValue: '25'
+    defaultValue: 25
     persistCurrentValue: true
     sortOrder: 19
   Fade_Target_Preset_3:
     description: ''
-    defaultValue: '50'
+    defaultValue: 50
     persistCurrentValue: true
     sortOrder: 20
   Fade_Target_Preset_4:
     description: ''
-    defaultValue: '75'
+    defaultValue: 75
     persistCurrentValue: true
     sortOrder: 21
   Fade_Target_Preset_5:
     description: ''
-    defaultValue: '90'
+    defaultValue: 90
     persistCurrentValue: true
     sortOrder: 22
   Fade_Time_Preset_1:
@@ -35358,17 +35358,17 @@ custom_variables:
     sortOrder: 37
   Fade_Time_Preset_3:
     description: Fade time preset 3 in seconds
-    defaultValue: 150
+    defaultValue: 300
     persistCurrentValue: true
     sortOrder: 38
   Fade_Time_Preset_4:
     description: Fade time preset 4 in seconds
-    defaultValue: 300
+    defaultValue: 1800
     persistCurrentValue: true
     sortOrder: 39
   Fade_Time_Preset_5:
     description: Fade time preset 5 in seconds
-    defaultValue: 600
+    defaultValue: 3600
     persistCurrentValue: true
     sortOrder: 40
   Brightness_Page_Temp:
@@ -35428,7 +35428,7 @@ custom_variables:
     sortOrder: 73
   Preset_Edit_Time_3:
     description: Preset edit working time 3
-    defaultValue: 150
+    defaultValue: 300
     persistCurrentValue: false
     sortOrder: 83
   Preset_Edit_Brightness_4:
@@ -35443,7 +35443,7 @@ custom_variables:
     sortOrder: 74
   Preset_Edit_Time_4:
     description: Preset edit working time 4
-    defaultValue: 300
+    defaultValue: 1800
     persistCurrentValue: false
     sortOrder: 84
   Preset_Edit_Brightness_5:
@@ -35458,7 +35458,7 @@ custom_variables:
     sortOrder: 75
   Preset_Edit_Time_5:
     description: Preset edit working time 5
-    defaultValue: 600
+    defaultValue: 3600
     persistCurrentValue: false
     sortOrder: 85
   Preset_Tap_Enabled:
